@@ -36,7 +36,7 @@ export const Achievements = () => {
             
             <div className="relative z-10">
               <span className="font-mono text-amber text-xs block mb-4">&gt; RATING_METRIC</span>
-              <h3 className="font-display font-extrabold text-[90px] md:text-[110px] leading-none text-gradient mb-4 pr-6">
+              <h3 className="inline-block font-display font-extrabold text-[90px] md:text-[110px] leading-none text-gradient mb-4 pr-8">
                 1863
               </h3>
               <div className="font-mono text-text-primary tracking-widest text-sm uppercase mb-2 font-bold">

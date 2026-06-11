@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // Micro-particles component for WebGL mode
 const FloatingParticles = ({ count, color }: { count: number; color: string }) => {
@@ -39,6 +39,16 @@ const FloatingParticles = ({ count, color }: { count: number; color: string }) =
     </div>
   );
 };
+
+interface Pulse {
+  id: string;
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+  color: string;
+  duration: number;
+  delay: number;
+  createdAt: number;
+}
 
 export const Topology = () => {
   const categories = [
@@ -108,6 +118,231 @@ export const Topology = () => {
     }
   ];
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [pulses, setPulses] = useState<Pulse[]>([]);
+  const [coords, setCoords] = useState<{
+    dots: { [key: number]: { x: number; y: number } };
+    cards: { [key: string]: { x: number; y: number } };
+  }>({ dots: {}, cards: {} });
+
+  const getNodeCoordinates = () => {
+    if (!containerRef.current) return { dots: {}, cards: {} };
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const dots: { [key: number]: { x: number; y: number } } = {};
+    const cards: { [key: string]: { x: number; y: number } } = {};
+
+    const elements = containerRef.current.querySelectorAll('[data-constellation-node]');
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const x = rect.left + rect.width / 2 - containerRect.left;
+      const y = rect.top + rect.height / 2 - containerRect.top;
+      
+      const type = el.getAttribute('data-node-type');
+      const catIdxStr = el.getAttribute('data-cat-idx');
+      const itemIdxStr = el.getAttribute('data-item-idx');
+      
+      if (catIdxStr !== null) {
+        const catIdx = parseInt(catIdxStr, 10);
+        if (type === 'dot') {
+          dots[catIdx] = { x, y };
+        } else if (type === 'card' && itemIdxStr !== null) {
+          cards[`${catIdx}-${itemIdxStr}`] = { x, y };
+        }
+      }
+    });
+
+    return { dots, cards };
+  };
+
+  const updateCoords = () => {
+    setCoords(getNodeCoordinates());
+  };
+
+  useEffect(() => {
+    updateCoords();
+    window.addEventListener('resize', updateCoords);
+    const timer = setTimeout(updateCoords, 600);
+    return () => {
+      window.removeEventListener('resize', updateCoords);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // Cleanup completed pulses to prevent memory leak
+  useEffect(() => {
+    if (pulses.length === 0) return;
+    const interval = setInterval(() => {
+      const now = Date.now();
+      setPulses((prev) =>
+        prev.filter((p) => now - p.createdAt < (p.delay + p.duration) * 1000 + 200)
+      );
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [pulses]);
+
+  const propagateAlongTimeline = (
+    centerIdx: number,
+    initialDelay: number,
+    currentCoords: typeof coords,
+    newPulses: Pulse[],
+    makeId: () => string
+  ) => {
+    const numCategories = categories.length;
+
+    // Upwards propagation
+    let delayUp = initialDelay;
+    for (let i = centerIdx; i > 0; i--) {
+      const fromDot = currentCoords.dots[i];
+      const toDot = currentCoords.dots[i - 1];
+      if (fromDot && toDot) {
+        const stepColor = i - 1 === 5 ? '#8b5cf6' : '#f59e0b';
+        newPulses.push({
+          id: makeId(),
+          from: fromDot,
+          to: toDot,
+          color: stepColor,
+          duration: 1.2,
+          delay: delayUp,
+          createdAt: Date.now(),
+        });
+        
+        const destCatIdx = i - 1;
+        delayUp += 1.2;
+        
+        Object.keys(currentCoords.cards).forEach((key) => {
+          if (key.startsWith(`${destCatIdx}-`)) {
+            const cardPos = currentCoords.cards[key];
+            if (cardPos) {
+              newPulses.push({
+                id: makeId(),
+                from: toDot,
+                to: cardPos,
+                color: stepColor,
+                duration: 1.2,
+                delay: delayUp,
+                createdAt: Date.now(),
+              });
+            }
+          }
+        });
+      }
+    }
+
+    // Downwards propagation
+    let delayDown = initialDelay;
+    for (let i = centerIdx; i < numCategories - 1; i++) {
+      const fromDot = currentCoords.dots[i];
+      const toDot = currentCoords.dots[i + 1];
+      if (fromDot && toDot) {
+        const stepColor = i + 1 === 5 ? '#8b5cf6' : '#f59e0b';
+        newPulses.push({
+          id: makeId(),
+          from: fromDot,
+          to: toDot,
+          color: stepColor,
+          duration: 1.2,
+          delay: delayDown,
+          createdAt: Date.now(),
+        });
+
+        const destCatIdx = i + 1;
+        delayDown += 1.2;
+
+        Object.keys(currentCoords.cards).forEach((key) => {
+          if (key.startsWith(`${destCatIdx}-`)) {
+            const cardPos = currentCoords.cards[key];
+            if (cardPos) {
+              newPulses.push({
+                id: makeId(),
+                from: toDot,
+                to: cardPos,
+                color: stepColor,
+                duration: 1.2,
+                delay: delayDown,
+                createdAt: Date.now(),
+              });
+            }
+          }
+        });
+      }
+    }
+  };
+
+  const triggerChainReaction = (startCatIdx: number, startItemIdx?: number) => {
+    // Get fresh coordinates at the time of click
+    const currentCoords = getNodeCoordinates();
+    const newPulses: Pulse[] = [];
+    const pulseColor = startCatIdx === 5 ? '#8b5cf6' : '#f59e0b';
+
+    const makeId = () => Math.random().toString(36).substring(2, 9);
+
+    if (startItemIdx !== undefined) {
+      const cardKey = `${startCatIdx}-${startItemIdx}`;
+      const startPos = currentCoords.cards[cardKey];
+      const dotPos = currentCoords.dots[startCatIdx];
+
+      if (startPos && dotPos) {
+        // Step 1: Card to Dot
+        newPulses.push({
+          id: makeId(),
+          from: startPos,
+          to: dotPos,
+          color: pulseColor,
+          duration: 1.2,
+          delay: 0,
+          createdAt: Date.now(),
+        });
+
+        // Step 2: Dot to all other cards in same category
+        Object.keys(currentCoords.cards).forEach((key) => {
+          if (key.startsWith(`${startCatIdx}-`) && key !== cardKey) {
+            const targetCardPos = currentCoords.cards[key];
+            if (targetCardPos) {
+              newPulses.push({
+                id: makeId(),
+                from: dotPos,
+                to: targetCardPos,
+                color: pulseColor,
+                duration: 1.2,
+                delay: 1.2,
+                createdAt: Date.now(),
+              });
+            }
+          }
+        });
+
+        // Step 3: Propagate along timeline
+        propagateAlongTimeline(startCatIdx, 1.2, currentCoords, newPulses, makeId);
+      }
+    } else {
+      const dotPos = currentCoords.dots[startCatIdx];
+      if (dotPos) {
+        // Step 1: Dot to all cards in this category
+        Object.keys(currentCoords.cards).forEach((key) => {
+          if (key.startsWith(`${startCatIdx}-`)) {
+            const targetCardPos = currentCoords.cards[key];
+            if (targetCardPos) {
+              newPulses.push({
+                id: makeId(),
+                from: dotPos,
+                to: targetCardPos,
+                color: pulseColor,
+                duration: 1.2,
+                delay: 0,
+                createdAt: Date.now(),
+              });
+            }
+          }
+        });
+
+        // Step 2: Propagate along timeline
+        propagateAlongTimeline(startCatIdx, 0, currentCoords, newPulses, makeId);
+      }
+    }
+
+    setPulses((prev) => [...prev, ...newPulses]);
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -143,14 +378,99 @@ export const Topology = () => {
           Technology Stack
         </motion.h2>
 
-        <div className="relative pl-8 md:pl-12">
-          {/* Timeline Line */}
+        <div ref={containerRef} className="relative pl-8 md:pl-12">
+          {/* SVG Constellation Connections Layer */}
+          <svg className="absolute inset-0 pointer-events-none w-full h-full z-0 overflow-visible">
+            {/* Timeline Dots Connections */}
+            {categories.map((_, idx) => {
+              if (idx === categories.length - 1) return null;
+              const from = coords.dots[idx];
+              const to = coords.dots[idx + 1];
+              if (!from || !to) return null;
+              const isViolet = idx >= 4;
+              return (
+                <line
+                  key={`timeline-line-${idx}`}
+                  x1={from.x}
+                  y1={from.y}
+                  x2={to.x}
+                  y2={to.y}
+                  stroke={isViolet ? "rgba(139, 92, 246, 0.15)" : "rgba(245, 158, 11, 0.15)"}
+                  strokeWidth={1.5}
+                />
+              );
+            })}
+
+            {/* Dot to Card Connections */}
+            {categories.map((cat, catIdx) => {
+              const dot = coords.dots[catIdx];
+              if (!dot) return null;
+              return cat.items.map((_, itemIdx) => {
+                const card = coords.cards[`${catIdx}-${itemIdx}`];
+                if (!card) return null;
+                return (
+                  <line
+                    key={`card-line-${catIdx}-${itemIdx}`}
+                    x1={dot.x}
+                    y1={dot.y}
+                    x2={card.x}
+                    y2={card.y}
+                    stroke={cat.isResearch ? "rgba(139, 92, 246, 0.1)" : "rgba(245, 158, 11, 0.1)"}
+                    strokeWidth={1}
+                    strokeDasharray="4 4"
+                  />
+                );
+              });
+            })}
+
+            {/* Animated Pulses Layer */}
+            {pulses.map((pulse) => (
+              <g key={pulse.id}>
+                {/* Glowing line segment */}
+                <motion.line
+                  x1={pulse.from.x}
+                  y1={pulse.from.y}
+                  x2={pulse.to.x}
+                  y2={pulse.to.y}
+                  stroke={pulse.color}
+                  strokeWidth={2}
+                  initial={{ pathLength: 0, opacity: 0.8 }}
+                  animate={{ pathLength: 1, opacity: [0.8, 1, 0] }}
+                  transition={{
+                    duration: pulse.duration,
+                    delay: pulse.delay,
+                    ease: "easeInOut"
+                  }}
+                />
+                {/* Traveling node particle */}
+                <motion.circle
+                  r={4}
+                  fill={pulse.color}
+                  style={{
+                    filter: `drop-shadow(0 0 6px ${pulse.color})`
+                  }}
+                  initial={{ cx: pulse.from.x, cy: pulse.from.y, opacity: 0 }}
+                  animate={{ 
+                    cx: [pulse.from.x, pulse.to.x], 
+                    cy: [pulse.from.y, pulse.to.y],
+                    opacity: [0, 1, 1, 0] 
+                  }}
+                  transition={{
+                    duration: pulse.duration,
+                    delay: pulse.delay,
+                    ease: "easeInOut"
+                  }}
+                />
+              </g>
+            ))}
+          </svg>
+
+          {/* Timeline Line (Visual Backdrop fallback) */}
           <div 
-            className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[rgba(245,158,11,0.3)] to-[rgba(139,92,246,0.3)]"
-            style={{ filter: 'drop-shadow(0 0 4px rgba(245,158,11,0.4))' }}
+            className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[rgba(245,158,11,0.1)] to-[rgba(139,92,246,0.1)] pointer-events-none"
           />
 
-          {categories.map((cat) => {
+          {categories.map((cat, catIdx) => {
             const isResearch = cat.isResearch;
             const particleColor = isResearch ? '#8b5cf6' : '#f59e0b';
 
@@ -159,7 +479,13 @@ export const Topology = () => {
                 <FloatingParticles count={6} color={particleColor} />
                 
                 {/* Timeline Dot */}
-                <div className={`absolute -left-[37px] md:-left-[53px] top-2 w-4 h-4 rounded-full bg-surface-base border-2 z-10 flex items-center justify-center ${isResearch ? 'border-violet shadow-[0_0_10px_rgba(139,92,246,0.5)]' : 'border-amber shadow-[0_0_10px_rgba(245,158,11,0.5)]'}`}>
+                <div 
+                  data-constellation-node
+                  data-node-type="dot"
+                  data-cat-idx={catIdx}
+                  onClick={() => triggerChainReaction(catIdx)}
+                  className={`absolute -left-[37px] md:-left-[53px] top-2 w-4 h-4 rounded-full bg-surface-base border-2 z-10 flex items-center justify-center cursor-pointer hover:scale-125 transition-transform duration-200 ${isResearch ? 'border-violet shadow-[0_0_10px_rgba(139,92,246,0.5)]' : 'border-amber shadow-[0_0_10px_rgba(245,158,11,0.5)]'}`}
+                >
                   <div className={`w-1.5 h-1.5 rounded-full ${isResearch ? 'bg-violet' : 'bg-amber'} animate-pulse-slow`} />
                 </div>
 
@@ -178,7 +504,7 @@ export const Topology = () => {
                   whileInView="visible"
                   viewport={{ once: true, margin: "-50px" }}
                 >
-                  {cat.items.map((item: any) => {
+                  {cat.items.map((item: any, itemIdx: number) => {
                     
                     if (item.icon) {
                       // Icon Card Upgrade
@@ -186,7 +512,12 @@ export const Topology = () => {
                         <motion.div
                           key={item.name}
                           variants={itemVariants}
-                          className="group relative flex items-center justify-center w-[72px] h-[72px] rounded-[12px] cursor-default transition-all duration-300"
+                          data-constellation-node
+                          data-node-type="card"
+                          data-cat-idx={catIdx}
+                          data-item-idx={itemIdx}
+                          onClick={() => triggerChainReaction(catIdx, itemIdx)}
+                          className="group relative flex items-center justify-center w-[72px] h-[72px] rounded-[12px] cursor-pointer transition-all duration-300"
                           style={{ 
                             background: 'linear-gradient(135deg, #161318 0%, #1a1520 100%)',
                             border: '1px solid rgba(255,255,255,0.07)',
@@ -238,7 +569,12 @@ export const Topology = () => {
                         <motion.div
                           key={item.name}
                           variants={itemVariants}
-                          className="group flex items-center justify-center px-4 py-2 bg-[#161318] rounded-[8px] transition-all duration-300 cursor-default"
+                          data-constellation-node
+                          data-node-type="card"
+                          data-cat-idx={catIdx}
+                          data-item-idx={itemIdx}
+                          onClick={() => triggerChainReaction(catIdx, itemIdx)}
+                          className="group flex items-center justify-center px-4 py-2 bg-[#161318] rounded-[8px] transition-all duration-300 cursor-pointer"
                           style={{ border: '1px solid rgba(255,255,255,0.05)' }}
                         >
                           <span className="font-mono text-xs text-text-muted group-hover:text-amber transition-colors duration-300">
@@ -258,7 +594,12 @@ export const Topology = () => {
                         <motion.div
                           key={item.name}
                           variants={itemVariants}
-                          className="group flex items-center justify-center px-5 py-3 rounded-[8px] transition-all duration-300 cursor-default"
+                          data-constellation-node
+                          data-node-type="card"
+                          data-cat-idx={catIdx}
+                          data-item-idx={itemIdx}
+                          onClick={() => triggerChainReaction(catIdx, itemIdx)}
+                          className="group flex items-center justify-center px-5 py-3 rounded-[8px] transition-all duration-300 cursor-pointer"
                           style={{ 
                             background: 'rgba(139, 92, 246, 0.06)',
                             border: '1px solid rgba(139, 92, 246, 0.4)'
@@ -281,7 +622,12 @@ export const Topology = () => {
                         <motion.div
                           key={item.name}
                           variants={itemVariants}
-                          className="group flex items-center justify-center px-4 py-2 bg-[#161318] rounded-[8px] transition-all duration-300 cursor-default"
+                          data-constellation-node
+                          data-node-type="card"
+                          data-cat-idx={catIdx}
+                          data-item-idx={itemIdx}
+                          onClick={() => triggerChainReaction(catIdx, itemIdx)}
+                          className="group flex items-center justify-center px-4 py-2 bg-[#161318] rounded-[8px] transition-all duration-300 cursor-pointer"
                           style={{ border: '1px solid rgba(255,255,255,0.05)' }}
                         >
                           <span className="font-mono text-xs text-text-primary group-hover:text-amber transition-colors duration-300">
@@ -306,3 +652,4 @@ export const Topology = () => {
     </section>
   );
 };
+

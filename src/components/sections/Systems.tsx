@@ -31,7 +31,8 @@ export const Systems = () => {
       metrics: ['<50ms Latency', '30 FPS', 'WebSocket Transport', 'CDP Controlled'],
       stack: ['Node.js', 'Redis', 'WebSockets', 'C++'],
       github: 'https://github.com/Shubhamsah27/remote-browser-control',
-      live: 'http://43.204.130.144/'
+      live: 'http://43.204.130.144/',
+      image: '/projects/remote-browser.png'
     },
     {
       id: 2,
@@ -43,7 +44,8 @@ export const Systems = () => {
       stack: ['Django', 'React', 'SQLite', 'REST APIs'],
       github: 'https://github.com/Shubhamsah27/breathe-esg-assignment',
       live: 'https://breathe-esg-frontend.onrender.com/',
-      api: 'https://breathe-esg-backend-u610.onrender.com/'
+      api: 'https://breathe-esg-backend-u610.onrender.com/',
+      image: '/projects/carbon-ledger.png'
     },
     {
       id: 3,
@@ -55,6 +57,7 @@ export const Systems = () => {
       stack: ['Java', 'Spring Boot', 'Spring Security', 'JPA', 'H2', 'Docker'],
       github: 'https://github.com/Shubhamsah27/personal-finance-manager',
       live: 'https://personal-finance-manager-ztbc.onrender.com/',
+      image: '/projects/personal-finance.png',
       terminalLogs: [
         { className: 'text-text-muted/50 text-xs mb-2', text: '> booting finance management services...' },
         { className: 'text-amber/70 text-xs mb-2', text: '> loading security context [OK]' },
@@ -208,8 +211,18 @@ export const Systems = () => {
                           </div>
                         </div>
 
-                        <div className="w-full lg:w-1/2 bg-surface-base flex items-center justify-center p-4 min-h-[300px] lg:min-h-auto">
-                          <AnimatedArchitecture />
+                        <div className="w-full lg:w-1/2 bg-surface-base flex items-center justify-center p-6 min-h-[300px] lg:min-h-auto relative overflow-hidden group/img-container">
+                          {(project as any).image ? (
+                            <div className="w-full h-full max-h-[380px] rounded-lg border border-[rgba(245,158,11,0.2)] shadow-[0_0_30px_rgba(245,158,11,0.15)] overflow-hidden relative">
+                              <img 
+                                src={(project as any).image} 
+                                alt={project.name}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover/img-container:scale-105"
+                              />
+                            </div>
+                          ) : (
+                            <AnimatedArchitecture />
+                          )}
                         </div>
                       </div>
                     ) : (
@@ -221,24 +234,42 @@ export const Systems = () => {
                           </div>
                         </div>
                         
-                        {/* Terminal Mockup */}
-                        <div className="w-full h-48 bg-[#080608] rounded-lg border border-[rgba(255,255,255,0.05)] relative overflow-hidden font-mono p-4 flex flex-col justify-end mb-8 group">
-                          {/* Scanlines */}
-                          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-10 opacity-30 group-hover:opacity-10 transition-opacity" />
-                          
-                          {(project as any).terminalLogs ? (project as any).terminalLogs.map((log: any, idx: number) => (
-                            <div key={idx} className={log.className}>
-                              {log.text}
-                              {log.cursor && <span className="animate-pulse-fast"> _</span>}
+                        {/* Project Visual / Screenshot / Terminal */}
+                        {(project as any).image ? (
+                          <div className="w-full h-48 bg-[#080608] rounded-lg border border-[rgba(255,255,255,0.05)] relative overflow-hidden mb-8 group/img-container">
+                            {/* Window Top Bar */}
+                            <div className="absolute top-0 left-0 right-0 h-6 bg-[#161318]/90 border-b border-[rgba(255,255,255,0.05)] flex items-center gap-1.5 px-3 z-20">
+                              <div className="w-2 h-2 rounded-full bg-[#ff5f56]" />
+                              <div className="w-2 h-2 rounded-full bg-[#ffbd2e]" />
+                              <div className="w-2 h-2 rounded-full bg-[#27c93f]" />
+                              <span className="font-mono text-[9px] text-text-muted/50 ml-2">localhost:3000</span>
                             </div>
-                          )) : (
-                            <>
-                              <div className="text-text-muted/50 text-xs mb-2">&gt; initializing sequence for {project.name.toLowerCase()}...</div>
-                              <div className="text-amber/70 text-xs mb-2">&gt; building distributed graph nodes [OK]</div>
-                              <div className="text-[#faf5ff] text-xs">&gt; system online <span className="animate-pulse-fast">_</span></div>
-                            </>
-                          )}
-                        </div>
+                            <img 
+                              src={(project as any).image} 
+                              alt={project.name}
+                              className="w-full h-full object-cover object-top pt-6 transition-transform duration-500 group-hover/img-container:scale-105"
+                            />
+                          </div>
+                        ) : (
+                          /* Terminal Mockup */
+                          <div className="w-full h-48 bg-[#080608] rounded-lg border border-[rgba(255,255,255,0.05)] relative overflow-hidden font-mono p-4 flex flex-col justify-end mb-8 group">
+                            {/* Scanlines */}
+                            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-10 opacity-30 group-hover:opacity-10 transition-opacity" />
+                            
+                            {(project as any).terminalLogs ? (project as any).terminalLogs.map((log: any, idx: number) => (
+                              <div key={idx} className={log.className}>
+                                {log.text}
+                                {log.cursor && <span className="animate-pulse-fast"> _</span>}
+                              </div>
+                            )) : (
+                              <>
+                                <div className="text-text-muted/50 text-xs mb-2">&gt; initializing sequence for {project.name.toLowerCase()}...</div>
+                                <div className="text-amber/70 text-xs mb-2">&gt; building distributed graph nodes [OK]</div>
+                                <div className="text-[#faf5ff] text-xs">&gt; system online <span className="animate-pulse-fast">_</span></div>
+                              </>
+                            )}
+                          </div>
+                        )}
 
                         <h3 className="font-display font-bold text-2xl md:text-3xl mb-4 text-text-primary">
                           {project.name}

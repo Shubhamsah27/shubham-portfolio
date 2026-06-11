@@ -97,7 +97,7 @@ export const SolarCursor = () => {
   if (isMobile || !isVisible) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[9999]">
+    <div className="fixed inset-0 pointer-events-none z-[10000]">
       {/* Trailing Dots */}
       {trail.map((dot, index) => (
         <div

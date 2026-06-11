@@ -8,18 +8,21 @@ export const Starfield = () => {
   const linesRef = useRef<THREE.LineSegments>(null);
   
   const activeProjectIndex = useStore((state) => state.activeProjectIndex);
+  const starfieldPulseTrigger = useStore((state) => state.starfieldPulseTrigger);
   
   // Track transition flash value
   const transitionRef = useRef(0);
   const lastIndexRef = useRef(activeProjectIndex);
+  const lastTriggerRef = useRef(starfieldPulseTrigger);
 
-  // Trigger flash on project change
+  // Trigger flash on project change or manual pulse trigger
   useEffect(() => {
-    if (activeProjectIndex !== lastIndexRef.current) {
+    if (activeProjectIndex !== lastIndexRef.current || starfieldPulseTrigger !== lastTriggerRef.current) {
       transitionRef.current = 1.0; // trigger full flash
       lastIndexRef.current = activeProjectIndex;
+      lastTriggerRef.current = starfieldPulseTrigger;
     }
-  }, [activeProjectIndex]);
+  }, [activeProjectIndex, starfieldPulseTrigger]);
 
   const count = 2500;
 

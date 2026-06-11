@@ -24,6 +24,7 @@ export const Navigation = () => {
   const setCurrentTrack = useStore((state) => state.setCurrentTrack);
   const volume = useStore((state) => state.volume);
   const setVolume = useStore((state) => state.setVolume);
+  const triggerStarfieldPulse = useStore((state) => state.triggerStarfieldPulse);
 
   // UI state
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -183,6 +184,7 @@ export const Navigation = () => {
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
+    triggerStarfieldPulse();
   };
 
   const handlePrev = (e: React.MouseEvent) => {
@@ -190,6 +192,7 @@ export const Navigation = () => {
     const prev = (currentTrack - 1 + TRACKS.length) % TRACKS.length;
     setCurrentTrack(prev);
     setIsPlaying(true);
+    triggerStarfieldPulse();
   };
 
   const handleNext = (e: React.MouseEvent) => {
@@ -197,6 +200,7 @@ export const Navigation = () => {
     const next = (currentTrack + 1) % TRACKS.length;
     setCurrentTrack(next);
     setIsPlaying(true);
+    triggerStarfieldPulse();
   };
 
   const currentTrackObj = TRACKS[currentTrack];

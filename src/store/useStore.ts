@@ -19,6 +19,8 @@ interface AppState {
   setIsPlaying: (isPlaying: boolean) => void;
   setCurrentTrack: (trackIndex: number) => void;
   setVolume: (volume: number) => void;
+  starfieldPulseTrigger: number;
+  triggerStarfieldPulse: () => void;
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -31,6 +33,7 @@ export const useStore = create<AppState>((set) => ({
   isPlaying: false,
   currentTrack: 0,
   volume: 0.5,
+  starfieldPulseTrigger: 0,
   setRenderMode: (mode) => set({ renderMode: mode }),
   toggleTerminal: () => set((state) => ({ terminalOpen: !state.terminalOpen })),
   setScrollProgress: (progress) => set({ scrollProgress: progress }),
@@ -40,4 +43,5 @@ export const useStore = create<AppState>((set) => ({
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   setCurrentTrack: (currentTrack) => set({ currentTrack }),
   setVolume: (volume) => set({ volume }),
+  triggerStarfieldPulse: () => set((state) => ({ starfieldPulseTrigger: state.starfieldPulseTrigger + 1 })),
 }));

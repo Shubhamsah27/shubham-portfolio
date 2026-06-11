@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
+import { useStore } from '../../store/useStore';
 
 // Official High-Fidelity SVG Brand Icons
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -28,6 +29,7 @@ const CodeChefIcon = ({ className }: { className?: string }) => (
 );
 
 export const Contact = () => {
+  const triggerStarfieldPulse = useStore((state) => state.triggerStarfieldPulse);
   const socials = [
     { name: 'GitHub', url: 'https://github.com/Shubhamsah27', icon: GithubIcon },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/shubham-sah2005/', icon: LinkedinIcon },
@@ -62,7 +64,10 @@ export const Contact = () => {
           transition={{ delay: 0.2 }}
           className="bg-surface-card/60 border border-white/[0.04] rounded-xl p-8 max-w-lg mx-auto shadow-2xl backdrop-blur-sm"
         >
-          <div className="flex items-center justify-center space-x-3 text-lg md:text-xl text-amber mb-8 select-all cursor-pointer hover:opacity-85 transition-opacity">
+          <div 
+            onClick={triggerStarfieldPulse}
+            className="flex items-center justify-center space-x-3 text-lg md:text-xl text-amber mb-8 select-all cursor-pointer hover:opacity-85 transition-opacity"
+          >
             <Mail className="w-5 h-5 text-amber" />
             <a 
               href="mailto:shubhamsah869@gmail.com" 
@@ -82,6 +87,7 @@ export const Contact = () => {
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={triggerStarfieldPulse}
                   className="flex items-center space-x-2 bg-surface-base/80 border border-white/[0.06] hover:border-amber/40 hover:text-amber rounded-lg px-4 py-2.5 text-xs text-text-primary transition-all font-mono"
                   style={{ minHeight: '44px' }}
                 >

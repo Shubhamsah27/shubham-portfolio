@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { useStore } from '../../store/useStore';
 
 // Official SVG Brand Icons
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -22,6 +23,7 @@ const CodeforcesIcon = ({ className }: { className?: string }) => (
 );
 
 export const Hero = () => {
+  const triggerStarfieldPulse = useStore((state) => state.triggerStarfieldPulse);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -165,6 +167,7 @@ export const Hero = () => {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={triggerStarfieldPulse}
                 className="px-6 py-3 border border-border-amber text-text-primary hover:border-amber hover:text-amber transition-colors flex items-center gap-2"
                 style={{ minHeight: '44px' }}
               >
@@ -182,6 +185,7 @@ export const Hero = () => {
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={triggerStarfieldPulse}
                     className="flex items-center space-x-2 bg-surface-card border border-white/[0.06] hover:border-amber/40 hover:text-amber rounded-lg px-4 py-2.5 text-xs text-text-muted hover:text-text-primary transition-all font-mono"
                     style={{ minHeight: '44px' }}
                   >

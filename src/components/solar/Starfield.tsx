@@ -66,16 +66,15 @@ export const Starfield = () => {
 
     // Build dense, highly visible constellation lines in the camera path
     // We generate specific constellation nodes confined to the camera's path
-    const constNodesCount = 90;
+    const constNodesCount = 160;
     const nodes: THREE.Vector3[] = [];
     const nodeCols: THREE.Color[] = [];
     const linePosArr: number[] = [];
     const lineColArr: number[] = [];
 
     for (let i = 0; i < constNodesCount; i++) {
-      // Push constellation nodes to the sides (Left: [-800, -200], Right: [200, 800])
-      const side = Math.random() > 0.5 ? 1 : -1;
-      const x = side * (200 + Math.random() * 600);
+      // Distribute nodes across the entire viewport width
+      const x = (Math.random() - 0.5) * 1400;
       const y = (Math.random() - 0.5) * 800;
       const z = Math.random() * 2000;
       nodes.push(new THREE.Vector3(x, y, z));
@@ -90,8 +89,8 @@ export const Starfield = () => {
       nodeCols.push(col);
     }
 
-    // Connect nodes that are within 240 units of each other
-    const maxDist = 240;
+    // Connect nodes that are within 300 units of each other
+    const maxDist = 300;
     for (let i = 0; i < constNodesCount; i++) {
       for (let j = i + 1; j < constNodesCount; j++) {
         const dist = nodes[i].distanceTo(nodes[j]);
@@ -199,10 +198,10 @@ export const Starfield = () => {
         float waveFront = pulseTime - (distToCenter * 0.003);
         float pulse = 0.0;
         if (waveFront > 0.0 && waveFront < 1.0) {
-          pulse = sin(waveFront * 3.14159) * 1.5;
+          pulse = sin(waveFront * 3.14159) * 2.5;
         }
         
-        vAlpha = wave * (0.12 + pulse * 0.4);
+        vAlpha = wave * (0.35 + pulse);
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }

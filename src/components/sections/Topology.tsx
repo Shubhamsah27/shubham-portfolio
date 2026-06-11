@@ -271,6 +271,7 @@ export const Topology = () => {
   const triggerChainReaction = (startCatIdx: number, startItemIdx?: number) => {
     // Get fresh coordinates at the time of click
     const currentCoords = getNodeCoordinates();
+    setCoords(currentCoords);
     const newPulses: Pulse[] = [];
     const pulseColor = startCatIdx === 5 ? '#8b5cf6' : '#f59e0b';
 
@@ -380,7 +381,7 @@ export const Topology = () => {
 
         <div ref={containerRef} className="relative pl-8 md:pl-12">
           {/* SVG Constellation Connections Layer */}
-          <svg className="absolute inset-0 pointer-events-none w-full h-full z-0 overflow-visible">
+          <svg className="absolute inset-0 pointer-events-none w-full h-full z-30 overflow-visible">
             {/* Timeline Dots Connections */}
             {categories.map((_, idx) => {
               if (idx === categories.length - 1) return null;

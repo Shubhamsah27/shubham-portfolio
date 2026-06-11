@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+# Shubham Sah — Systems Engineer & Researcher
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, interactive 3D portfolio showcasing systems engineering, browser automation, and cryptography expertise.
 
-Currently, two official plugins are available:
+**🔗 Live Demo:** [https://main.d1nbjah6vfuqak.amplifyapp.com/](https://main.d1nbjah6vfuqak.amplifyapp.com/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🌌 Core Features & Architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Solar System Parallax Background**: A full 3D viewport canvas rendered using `@react-three/fiber` and `@react-three/drei`. Camera position and asteroid belt orbits are dynamically driven by user scroll progress.
+- **Twinkling Starfield & Constellations**: High-performance custom WebGL shaders animating starry background coordinates. Star nodes connect dynamically based on proximity, propagating cascading energy ripples when projects are slid.
+- **Achievements Section**: Highlights a Codeforces Expert rank (Peak Rating: **1863**) in a custom-designed CRT monitor frame with scanlines and glow filters.
+- **Interactive Terminal Console**: Embedded command CLI simulation showcasing booting sequence analytics for personal finance manager API services.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend Core**: React 19, TypeScript, Vite
+- **3D Graphics**: Three.js, React Three Fiber, React Three Drei, React Three Postprocessing (Bloom, Noise)
+- **Animations**: Framer Motion
+- **State Management**: Zustand (Global scroll tracking, render mode, and slide state)
+- **Styling**: Tailwind CSS (Harmonious amber-violet color palette, custom glassmorphism)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🚀 Local Development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Shubhamsah27/shubham-portfolio.git
+   cd shubham-portfolio
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. **Run in development mode**:
+   ```bash
+   npm run dev
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4. **Compile production build**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 📡 Deployment
+
+This project is configured for continuous deployment on **AWS Amplify Hosting**. Any commits pushed to the `main` branch automatically trigger a managed CI/CD build pipeline and update the live distribution.

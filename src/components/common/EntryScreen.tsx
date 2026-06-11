@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '../../store/useStore';
 
 interface EntryScreenProps {
@@ -8,7 +9,6 @@ interface EntryScreenProps {
 export const EntryScreen = ({ onExitStart }: EntryScreenProps) => {
   const prefersReduced = useStore((state) => state.reducedMotion);
   const setRenderMode = useStore((state) => state.setRenderMode);
-  const renderMode = useStore((state) => state.renderMode);
 
   const [isVisible, setIsVisible] = useState(true);
   const [line1, setLine1] = useState('');
@@ -16,25 +16,35 @@ export const EntryScreen = ({ onExitStart }: EntryScreenProps) => {
   const [line3, setLine3] = useState('');
   const [line4, setLine4] = useState('');
   const [currentLine, setCurrentLine] = useState(1);
-  const [exitStarted, setExitStarted] = useState(false);
+  
+  // Animation Phase States
+  const [typewriterVisible, setTypewriterVisible] = useState(true);
+  const [showModeSelect, setShowModeSelect] = useState(false);
+  const [isGlitching, setIsGlitching] = useState(false);
   const [exitBgStarted, setExitBgStarted] = useState(false);
   const [unmount, setUnmount] = useState(false);
 
+  // Auto-skip if previously selected in this session
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-
-    // Reset sessionStorage flag on refresh/load so it plays again
-    sessionStorage.removeItem('entryPlayed');
-
-    // Auto-detect and set render mode if not initialized
-    if (!renderMode) {
-      const defaultMode = isMobile ? 'standard' : 'webgl';
-      setRenderMode(defaultMode);
+    const savedMode = sessionStorage.getItem('renderMode');
+    if (savedMode === 'webgl' || savedMode === 'standard') {
+      setIsVisible(false);
+      setUnmount(true);
+      setRenderMode(savedMode as 'webgl' | 'standard');
+      if (onExitStart) onExitStart();
     }
+  }, [setRenderMode, onExitStart]);
+
+  useEffect(() => {
+    if (unmount) return;
+
+    const isMobile = window.innerWidth < 768;
 
     // Do NOT show on mobile if prefers-reduced-motion is set
     if (isMobile && prefersReduced) {
       setIsVisible(false);
+      setUnmount(true);
+      setRenderMode(isMobile ? 'standard' : 'webgl');
       if (onExitStart) onExitStart();
       return;
     }
@@ -76,24 +86,36 @@ export const EntryScreen = ({ onExitStart }: EntryScreenProps) => {
     // Step 8: "found." types out at 3100ms (80ms per char)
     typeText("found.", setLine4, 3100, 80);
 
-    // Exit Sequence starts at 3800ms
+    // Fade typewriter text out at 3800ms
     setTimeout(() => {
-      setExitStarted(true);
-      if (onExitStart) onExitStart();
+      setTypewriterVisible(false);
     }, 3800);
 
-    // Overlay bg fade starts at 4000ms (200ms after text fade starts)
+    // Fade mode select dialogue in at 4100ms
     setTimeout(() => {
+      setShowModeSelect(true);
+    }, 4100);
+
+  }, [prefersReduced, unmount, setRenderMode, onExitStart]);
+
+  const handleSelectMode = (mode: 'webgl' | 'standard') => {
+    sessionStorage.setItem('renderMode', mode);
+    setIsGlitching(true);
+    
+    // 3-frame glitch effect sequence
+    setTimeout(() => {
+      setIsGlitching(false);
       setExitBgStarted(true);
-    }, 4000);
+      if (onExitStart) onExitStart();
 
-    // Total exit completes at 4400ms (600ms total duration)
-    setTimeout(() => {
-      setUnmount(true);
-      sessionStorage.setItem('entryPlayed', 'true');
-    }, 4400);
-
-  }, [prefersReduced, renderMode, setRenderMode, onExitStart]);
+      // Complete unmount after bg transition completes
+      setTimeout(() => {
+        setUnmount(true);
+        setIsVisible(false);
+        setRenderMode(mode);
+      }, 400);
+    }, 150);
+  };
 
   if (!isVisible || unmount) return null;
 
@@ -138,37 +160,108 @@ export const EntryScreen = ({ onExitStart }: EntryScreenProps) => {
         }
       `}</style>
 
-      {/* Typewriter Text Container */}
-      <div 
-        className={`font-mono font-bold text-3xl md:text-5xl text-[#faf5ff] leading-[1.6] tracking-[0.02em] text-center z-10 max-w-4xl px-6 flex flex-col items-center justify-center transition-all duration-400 ease-in ${
-          exitStarted ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'
-        }`}
-      >
-        <div className="min-h-[1.6em] flex items-center justify-center">
-          <span>{line1}</span>
-          {currentLine === 1 && (
-            <span className={`custom-cursor ${exitStarted ? '' : 'cursor-active'}`} />
-          )}
-        </div>
-        <div className="min-h-[1.6em] flex items-center justify-center">
-          <span>{line2}</span>
-          {currentLine === 2 && (
-            <span className={`custom-cursor ${exitStarted ? '' : 'cursor-active'}`} />
-          )}
-        </div>
-        <div className="min-h-[1.6em] flex items-center justify-center">
-          <span>{line3}</span>
-          {currentLine === 3 && (
-            <span className={`custom-cursor ${exitStarted ? '' : 'cursor-active'}`} />
-          )}
-        </div>
-        <div className="min-h-[1.6em] flex items-center justify-center">
-          <span>{line4}</span>
-          {currentLine === 4 && (
-            <span className={`custom-cursor ${exitStarted ? '' : 'cursor-active'}`} />
-          )}
-        </div>
-      </div>
+      {/* Phase 1: Typewriter Text Container */}
+      <AnimatePresence>
+        {typewriterVisible && (
+          <motion.div 
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.3, ease: 'easeIn' }}
+            className="font-mono font-bold text-3xl md:text-5xl text-[#faf5ff] leading-[1.6] tracking-[0.02em] text-center z-10 max-w-4xl px-6 flex flex-col items-center justify-center"
+          >
+            <div className="min-h-[1.6em] flex items-center justify-center">
+              <span>{line1}</span>
+              {currentLine === 1 && (
+                <span className="custom-cursor cursor-active" />
+              )}
+            </div>
+            <div className="min-h-[1.6em] flex items-center justify-center">
+              <span>{line2}</span>
+              {currentLine === 2 && (
+                <span className="custom-cursor cursor-active" />
+              )}
+            </div>
+            <div className="min-h-[1.6em] flex items-center justify-center">
+              <span>{line3}</span>
+              {currentLine === 3 && (
+                <span className="custom-cursor cursor-active" />
+              )}
+            </div>
+            <div className="min-h-[1.6em] flex items-center justify-center">
+              <span>{line4}</span>
+              {currentLine === 4 && (
+                <span className="custom-cursor cursor-active" />
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Phase 2: Mode Select dialogue */}
+      <AnimatePresence>
+        {showModeSelect && !exitBgStarted && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="z-20 w-full max-w-2xl px-4"
+          >
+            <div
+              className={`relative w-full p-8 border border-[#f59e0b]/20 bg-[#0e0e14] rounded-lg shadow-2xl transition-all duration-75 ${
+                isGlitching ? 'hue-rotate-90 brightness-150 scale-[1.01] skew-x-1' : ''
+              }`}
+            >
+              <div className="flex flex-col items-center text-center mb-10 select-none">
+                <h1 className="font-display font-extrabold text-4xl md:text-5xl text-gradient tracking-tight mb-2 whitespace-nowrap">
+                  SHUBHAM SAH&nbsp;
+                </h1>
+                <p className="font-mono text-amber text-sm tracking-widest">
+                  SYS_INIT_v1.0
+                </p>
+              </div>
+
+              <div className="border-t border-b border-[#f59e0b]/10 py-6 mb-8 select-none">
+                <h2 className="font-mono text-white text-sm mb-6 tracking-widest">
+                  SELECT RENDER MODE
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                  <div>
+                    <h3 className="font-body font-medium text-white mb-1">WebGL Mode</h3>
+                    <p className="font-body text-text-muted text-sm leading-relaxed">
+                      Full infrastructure canvas.<br/>Recommended for desktop.
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-body font-medium text-white mb-1">Standard Mode</h3>
+                    <p className="font-body text-text-muted text-sm leading-relaxed">
+                      Lightweight. Battery-safe.<br/>Mobile optimized.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <button
+                  onClick={() => handleSelectMode('webgl')}
+                  className="px-6 py-3 border border-amber text-amber font-mono text-sm hover:bg-amber/10 transition-colors"
+                  style={{ minHeight: '44px' }}
+                >
+                  {'> WEBGL_ENABLED'}
+                </button>
+                <button
+                  onClick={() => handleSelectMode('standard')}
+                  className="px-6 py-3 border border-[#f59e0b]/20 text-text-muted font-mono text-sm hover:border-amber hover:text-amber transition-colors"
+                  style={{ minHeight: '44px' }}
+                >
+                  {'> STANDARD_MODE'}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -7,12 +7,18 @@ interface AppState {
   activeSection: string;
   reducedMotion: boolean;
   activeProjectIndex: number;
+  isPlaying: boolean;
+  currentTrack: number;
+  volume: number;
   setRenderMode: (mode: 'webgl' | 'standard' | null) => void;
   toggleTerminal: () => void;
   setScrollProgress: (progress: number) => void;
   setActiveSection: (section: string) => void;
   setReducedMotion: (reduced: boolean) => void;
   setActiveProjectIndex: (index: number) => void;
+  setIsPlaying: (isPlaying: boolean) => void;
+  setCurrentTrack: (trackIndex: number) => void;
+  setVolume: (volume: number) => void;
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -22,10 +28,16 @@ export const useStore = create<AppState>((set) => ({
   activeSection: 'hero',
   reducedMotion: false,
   activeProjectIndex: 0,
+  isPlaying: false,
+  currentTrack: 0,
+  volume: 0.5,
   setRenderMode: (mode) => set({ renderMode: mode }),
   toggleTerminal: () => set((state) => ({ terminalOpen: !state.terminalOpen })),
   setScrollProgress: (progress) => set({ scrollProgress: progress }),
   setActiveSection: (section) => set({ activeSection: section }),
   setReducedMotion: (reduced) => set({ reducedMotion: reduced }),
   setActiveProjectIndex: (index) => set({ activeProjectIndex: index }),
+  setIsPlaying: (isPlaying) => set({ isPlaying }),
+  setCurrentTrack: (currentTrack) => set({ currentTrack }),
+  setVolume: (volume) => set({ volume }),
 }));

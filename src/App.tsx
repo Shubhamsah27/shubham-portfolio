@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useStore } from './store/useStore';
 import { useScrollProgress } from './hooks/useScrollProgress';
 import { useReducedMotion } from './hooks/useReducedMotion';
@@ -21,6 +22,7 @@ function App() {
   const renderMode = useStore((state) => state.renderMode);
   const scrollProgress = useStore((state) => state.scrollProgress);
   const prefersReducedMotion = useStore((state) => state.reducedMotion);
+  const [portfolioVisible, setPortfolioVisible] = useState(false);
   
   // Use our custom scroll progress hook which updates Zustand
   useScrollProgress();
@@ -29,7 +31,7 @@ function App() {
   return (
     <>
       <SolarCursor />
-      <EntryScreen />
+      <EntryScreen onExitStart={() => setPortfolioVisible(true)} />
       <div className="bg-grain" />
       
       {/* Background Rendering Logic */}
@@ -37,7 +39,7 @@ function App() {
       {!prefersReducedMotion && renderMode === 'standard' && <StaticStarfield />}
 
       {renderMode && (
-        <div className="relative z-10">
+        <div className={`relative z-10 transition-opacity duration-500 ease-out ${portfolioVisible ? 'opacity-100' : 'opacity-0'}`}>
           <Navigation />
           
           <main>
@@ -79,7 +81,7 @@ function App() {
                   {/* Small floating sparkles */}
                   <div className="absolute w-1 h-1 bg-yellow-300 rounded-full top-[-10px] left-[4px] animate-bounce opacity-90" />
                   <div className="absolute w-1.5 h-1.5 bg-amber-400 rounded-full bottom-[-8px] left-[-6px] animate-ping opacity-80" />
-                  <div className="absolute w-1 h-1 bg-white rounded-full top-[6px] right-[-6px] animate-pulse opacity-90" />
+                  <div className="absolute w-1.5 h-1.5 bg-white rounded-full top-[6px] right-[-6px] animate-pulse opacity-90" />
                 </div>
               )}
             </div>

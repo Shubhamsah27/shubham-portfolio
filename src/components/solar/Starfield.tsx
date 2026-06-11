@@ -219,9 +219,9 @@ export const Starfield = () => {
   useFrame((state) => {
     const time = state.clock.elapsedTime;
 
-    // Decay transition flash smoothly
+    // Decay transition flash smoothly (slower decay so it is highly visible)
     if (transitionRef.current > 0) {
-      transitionRef.current = THREE.MathUtils.lerp(transitionRef.current, 0, 0.04);
+      transitionRef.current = THREE.MathUtils.lerp(transitionRef.current, 0, 0.01);
       if (transitionRef.current < 0.001) transitionRef.current = 0;
     }
 

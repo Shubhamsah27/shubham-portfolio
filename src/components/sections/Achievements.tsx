@@ -36,7 +36,7 @@ export const Achievements = () => {
             
             <div className="relative z-10">
               <span className="font-mono text-amber text-xs block mb-4">&gt; RATING_METRIC</span>
-              <h3 className="font-display font-extrabold text-[90px] md:text-[110px] leading-none text-gradient mb-4">
+              <h3 className="font-display font-extrabold text-[90px] md:text-[110px] leading-none text-gradient mb-4 pr-6">
                 1863
               </h3>
               <div className="font-mono text-text-primary tracking-widest text-sm uppercase mb-2 font-bold">
@@ -61,7 +61,7 @@ export const Achievements = () => {
                 whileHover={{ y: -4, borderColor: 'rgba(245, 158, 11, 0.4)' }}
               >
                 <div>
-                  <span className="font-mono text-xs text-text-muted mb-2 block">// {stat.label}</span>
+                  <span className="font-mono text-xs text-text-muted mb-2 block">{stat.label}</span>
                   <div className="font-display font-bold text-4xl text-amber mb-3">{stat.value}</div>
                 </div>
                 <p className="font-body text-text-muted text-xs leading-relaxed">{stat.desc}</p>

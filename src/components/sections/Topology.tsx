@@ -164,10 +164,7 @@ export const Topology = () => {
                 </div>
 
                 <div className="mb-8 flex items-center">
-                  <div className={`font-mono font-bold text-lg tracking-wider ${isResearch ? 'text-violet' : 'text-amber'}`}>
-                    //
-                  </div>
-                  <div className="font-mono font-bold text-lg tracking-wider text-[#faf5ff] ml-2 whitespace-nowrap">
+                  <div className="font-mono font-bold text-lg tracking-wider text-[#faf5ff] whitespace-nowrap">
                     {cat.name}
                   </div>
                   {/* Fading line to the right */}

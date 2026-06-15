@@ -31,7 +31,7 @@ export const Systems = () => {
       metrics: ['<50ms Latency', '30 FPS', 'WebSocket Transport', 'CDP Controlled'],
       stack: ['Node.js', 'Redis', 'WebSockets', 'C++'],
       github: 'https://github.com/Shubhamsah27/remote-browser-control',
-      live: 'http://43.204.130.144/',
+      live: 'http://65.2.153.220/',
       image: '/projects/remote-browser.png'
     },
     {

@@ -110,6 +110,7 @@ export const Systems = () => {
       stack: ['React', 'CSS', 'Render'],
       github: 'https://github.com/Shubhamsah27/Law-Firm-Landing-page',
       live: 'https://law-firm-template-qtuy.onrender.com/',
+      image: '/projects/law-firm.png',
       terminalLogs: [
         { className: 'text-text-muted/50 text-xs mb-2', text: '> connecting secure legal portal...' },
         { className: 'text-amber/70 text-xs mb-2', text: '> verification handshake established [OK]' },

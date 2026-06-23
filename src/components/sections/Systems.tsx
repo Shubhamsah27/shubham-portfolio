@@ -50,6 +50,25 @@ export const Systems = () => {
     {
       id: 3,
       type: 'standard',
+      badge: 'BACKEND',
+      name: 'Personal Finance Manager API',
+      desc: 'Enterprise-grade financial backend — Spring Boot, session auth, multi-user data isolation, savings analytics, reporting workflows.',
+      metrics: ['25+ Tests', 'Session Auth', '100% Service Coverage', 'Financial Analytics'],
+      stack: ['Java', 'Spring Boot', 'Spring Security', 'JPA', 'H2', 'Docker'],
+      github: 'https://github.com/Shubhamsah27/personal-finance-manager',
+      live: 'https://personal-finance-manager-ztbc.onrender.com/',
+      image: '/projects/personal-finance.png',
+      terminalLogs: [
+        { className: 'text-text-muted/50 text-xs mb-2', text: '> booting finance management services...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> loading security context [OK]' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> initializing transaction engine [OK]' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> session isolation enabled [OK]' },
+        { className: 'text-[#faf5ff] text-xs', text: '> analytics pipeline online', cursor: true }
+      ]
+    },
+    {
+      id: 4,
+      type: 'standard',
       badge: 'WEB',
       name: 'HFT Landing Page',
       desc: 'A high-fidelity landing page for a High-Frequency Trading platform, featuring responsive layouts and smooth animations.',
@@ -64,7 +83,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 4,
+      id: 5,
       type: 'standard',
       badge: 'WEB',
       name: 'Interior Design Landing Page',
@@ -80,7 +99,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 5,
+      id: 6,
       type: 'standard',
       badge: 'WEB',
       name: 'Law Firm Landing Page',
@@ -94,6 +113,28 @@ export const Systems = () => {
         { className: 'text-amber/70 text-xs mb-2', text: '> verification handshake established [OK]' },
         { className: 'text-[#faf5ff] text-xs', text: '> client portal operational', cursor: true }
       ]
+    },
+    {
+      id: 7,
+      type: 'standard',
+      badge: 'RESEARCH',
+      name: 'Quantum-Safe Encryption Platform',
+      desc: 'Experimental platform implementing lattice-based cryptography for secure message transmission.',
+      metrics: ['Lattice-based ZKP', 'Quantum-Resistant'],
+      stack: ['Python', 'C++', 'Lattice Systems'],
+      github: 'https://github.com/Shubhamsah27/Quantum-safe-ZKP-batch-verification',
+      live: '#'
+    },
+    {
+      id: 8,
+      type: 'standard',
+      badge: 'SYSTEM',
+      name: 'MineOps Dashboard',
+      desc: 'Real-time telemetry and operational dashboard for remote monitoring of mining infrastructure.',
+      metrics: ['Real-time Telemetry', 'Low Latency', 'WebSocket Streaming'],
+      stack: ['React', 'WebSocket', 'Express'],
+      github: '#',
+      live: '#'
     }
   ];
 

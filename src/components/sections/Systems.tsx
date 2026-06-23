@@ -50,43 +50,50 @@ export const Systems = () => {
     {
       id: 3,
       type: 'standard',
-      badge: 'BACKEND',
-      name: 'Personal Finance Manager API',
-      desc: 'Enterprise-grade financial backend — Spring Boot, session auth, multi-user data isolation, savings analytics, reporting workflows.',
-      metrics: ['25+ Tests', 'Session Auth', '100% Service Coverage', 'Financial Analytics'],
-      stack: ['Java', 'Spring Boot', 'Spring Security', 'JPA', 'H2', 'Docker'],
-      github: 'https://github.com/Shubhamsah27/personal-finance-manager',
-      live: 'https://personal-finance-manager-ztbc.onrender.com/',
-      image: '/projects/personal-finance.png',
+      badge: 'WEB',
+      name: 'HFT Landing Page',
+      desc: 'A high-fidelity landing page for a High-Frequency Trading platform, featuring responsive layouts and smooth animations.',
+      metrics: ['Responsive Design', 'Amplify Hosted', 'Animations'],
+      stack: ['React', 'CSS', 'Framer Motion'],
+      github: 'https://github.com/Shubhamsah27/HFT-Landing-Page',
+      live: 'https://main.d1yuxj39z40zcr.amplifyapp.com/',
       terminalLogs: [
-        { className: 'text-text-muted/50 text-xs mb-2', text: '> booting finance management services...' },
-        { className: 'text-amber/70 text-xs mb-2', text: '> loading security context [OK]' },
-        { className: 'text-amber/70 text-xs mb-2', text: '> initializing transaction engine [OK]' },
-        { className: 'text-amber/70 text-xs mb-2', text: '> session isolation enabled [OK]' },
-        { className: 'text-[#faf5ff] text-xs', text: '> analytics pipeline online', cursor: true }
+        { className: 'text-text-muted/50 text-xs mb-2', text: '> deploying high-frequency trading interface...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> checking order book streams [OK]' },
+        { className: 'text-[#faf5ff] text-xs', text: '> trade engine UI online', cursor: true }
       ]
     },
     {
       id: 4,
       type: 'standard',
-      badge: 'RESEARCH',
-      name: 'Quantum-Safe Encryption Platform',
-      desc: 'Experimental platform implementing lattice-based cryptography for secure message transmission.',
-      metrics: ['Lattice-based ZKP', 'Quantum-Resistant'],
-      stack: ['Python', 'C++', 'Lattice Systems'],
-      github: 'https://github.com/Shubhamsah27/Quantum-safe-ZKP-batch-verification',
-      live: '#'
+      badge: 'WEB',
+      name: 'Interior Design Landing Page',
+      desc: 'A modern, visually stunning landing page for an interior design studio showcasing project portfolios.',
+      metrics: ['Modern Aesthetic', 'Responsive Layout', 'Amplify Hosted'],
+      stack: ['React', 'CSS', 'Vite'],
+      github: 'https://github.com/Shubhamsah27/Interior-Design-Landing-Page',
+      live: 'https://main.d3tsvxzs0a7a5s.amplifyapp.com/',
+      terminalLogs: [
+        { className: 'text-text-muted/50 text-xs mb-2', text: '> rendering architectural designs...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> asset pipeline loading [OK]' },
+        { className: 'text-[#faf5ff] text-xs', text: '> portfolio grid active', cursor: true }
+      ]
     },
     {
       id: 5,
       type: 'standard',
-      badge: 'SYSTEM',
-      name: 'MineOps Dashboard',
-      desc: 'Real-time telemetry and operational dashboard for remote monitoring of mining infrastructure.',
-      metrics: ['Real-time Telemetry', 'Low Latency', 'WebSocket Streaming'],
-      stack: ['React', 'WebSocket', 'Express'],
-      github: '#',
-      live: '#'
+      badge: 'WEB',
+      name: 'Law Firm Landing Page',
+      desc: 'A professional and clean landing page designed for law firms, with client intake forms and service sections.',
+      metrics: ['Professional Design', 'Intake Forms', 'Render Hosted'],
+      stack: ['React', 'CSS', 'Render'],
+      github: 'https://github.com/Shubhamsah27/Law-Firm-Landing-page',
+      live: 'https://law-firm-template-qtuy.onrender.com/',
+      terminalLogs: [
+        { className: 'text-text-muted/50 text-xs mb-2', text: '> connecting secure legal portal...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> verification handshake established [OK]' },
+        { className: 'text-[#faf5ff] text-xs', text: '> client portal operational', cursor: true }
+      ]
     }
   ];
 

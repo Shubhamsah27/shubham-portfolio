@@ -76,6 +76,7 @@ export const Systems = () => {
       stack: ['React', 'CSS', 'Framer Motion'],
       github: 'https://github.com/Shubhamsah27/HFT-Landing-Page',
       live: 'https://main.d1yuxj39z40zcr.amplifyapp.com/',
+      image: '/projects/hft.png',
       terminalLogs: [
         { className: 'text-text-muted/50 text-xs mb-2', text: '> deploying high-frequency trading interface...' },
         { className: 'text-amber/70 text-xs mb-2', text: '> checking order book streams [OK]' },
@@ -92,6 +93,7 @@ export const Systems = () => {
       stack: ['React', 'CSS', 'Vite'],
       github: 'https://github.com/Shubhamsah27/Interior-Design-Landing-Page',
       live: 'https://main.d3tsvxzs0a7a5s.amplifyapp.com/',
+      image: '/projects/interior.png',
       terminalLogs: [
         { className: 'text-text-muted/50 text-xs mb-2', text: '> rendering architectural designs...' },
         { className: 'text-amber/70 text-xs mb-2', text: '> asset pipeline loading [OK]' },

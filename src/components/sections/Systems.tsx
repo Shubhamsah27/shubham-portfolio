@@ -37,6 +37,25 @@ export const Systems = () => {
     {
       id: 2,
       type: 'standard',
+      badge: 'SYSTEM',
+      name: 'PulseAPI Deployment Pipeline',
+      desc: 'Self-reporting deployment service and health monitoring pipeline providing automated build triggers, heartbeat checks, and real-time operational telemetry.',
+      metrics: ['Heartbeat Check', 'Real-time Metrics', 'Self-Reporting UI', 'ZeroDeploy Integration'],
+      stack: ['Python', 'FastAPI', 'Docker', 'WebSockets', 'Render'],
+      github: 'https://github.com/Shubhamsah27/Automated_Deployment',
+      live: 'https://pulseapi-zu03.onrender.com/',
+      image: '/projects/automated-deployment.png',
+      terminalLogs: [
+        { className: 'text-text-muted/50 text-xs mb-2', text: '> initializing zerodeploy pipeline...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> loading config from main branch [OK]' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> running automated health check...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> health status check: 200 OK [OK]' },
+        { className: 'text-[#faf5ff] text-xs', text: '> pulse telemetry online', cursor: true }
+      ]
+    },
+    {
+      id: 3,
+      type: 'standard',
       badge: 'WEB',
       name: 'Carbon Ingestion & Review Ledger',
       desc: 'High-throughput data ingestion pipeline handling millions of events for carbon tracking and verification.',
@@ -48,7 +67,7 @@ export const Systems = () => {
       image: '/projects/carbon-ledger.png'
     },
     {
-      id: 3,
+      id: 4,
       type: 'standard',
       badge: 'BACKEND',
       name: 'Personal Finance Manager API',
@@ -67,7 +86,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 4,
+      id: 5,
       type: 'standard',
       badge: 'WEB',
       name: 'HFT Landing Page',
@@ -84,7 +103,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 5,
+      id: 6,
       type: 'standard',
       badge: 'WEB',
       name: 'Interior Design Landing Page',
@@ -101,7 +120,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 6,
+      id: 7,
       type: 'standard',
       badge: 'WEB',
       name: 'Law Firm Landing Page',
@@ -118,7 +137,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 7,
+      id: 8,
       type: 'standard',
       badge: 'RESEARCH',
       name: 'Quantum-Safe Encryption Platform',
@@ -129,7 +148,7 @@ export const Systems = () => {
       live: '#'
     },
     {
-      id: 8,
+      id: 9,
       type: 'standard',
       badge: 'SYSTEM',
       name: 'MineOps Dashboard',

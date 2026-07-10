@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 export const Achievements = () => {
   const stats = [
-    { label: 'Problems Solved', value: '670+', desc: 'Across platforms including Codeforces, LeetCode, and HackerRank' },
+    { label: 'Problems Solved', value: '770+', desc: 'Across platforms including Codeforces, LeetCode, and CodeChef' },
     { label: 'Internships', value: '3', desc: 'Hands-on roles in backend engineering and systems infrastructure' },
     { label: 'Publications', value: '2', desc: 'Peer-reviewed research on post-quantum cryptography' },
     { label: 'System Uptime', value: '100%', desc: 'Proven reliability in production environments' }

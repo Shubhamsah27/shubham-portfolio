@@ -51,69 +51,79 @@ interface Pulse {
 }
 
 export const Topology = () => {
-  const categories = [
+  interface CategoryItem {
+    name: string;
+    icon?: string;
+    color?: string;
+    type?: string;
+    simple?: boolean;
+    invert?: boolean;
+  }
+
+  interface Category {
+    name: string;
+    accent: string;
+    isTextOnly?: boolean;
+    isResearch?: boolean;
+    items: CategoryItem[];
+  }
+
+  const categories: Category[] = [
     {
       name: 'Languages',
       accent: 'amber',
       items: [
-        { name: 'C++', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg', color: '#00599C' },
+        { name: 'C/C++', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg', color: '#00599C' },
         { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg', color: '#3776AB' },
-        { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg', color: '#F7DF1E' },
         { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg', color: '#3178C6' },
+        { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg', color: '#F7DF1E' },
+        { name: 'Bash', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg', color: '#4EAA25' },
+        { name: 'SQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg', color: '#00758F' },
       ]
     },
     {
-      name: 'Backend Services',
+      name: 'Backend & Security',
       accent: 'amber',
       items: [
         { name: 'Node.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', color: '#339933' },
-        { name: 'Express', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg', invert: true, color: '#ffffff' },
-        { name: 'FastAPI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg', color: '#009688' },
-        { name: 'WebSockets', type: 'text' }
+        { name: 'Django', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg', color: '#092E20' },
+        { name: 'REST APIs', type: 'text' },
+        { name: 'Webhooks (HMAC-SHA256)', type: 'text' },
+        { name: 'Idempotency & Safety', type: 'text' }
       ]
     },
     {
-      name: 'Infrastructure',
+      name: 'Infrastructure & DevOps',
       accent: 'amber',
       items: [
-        { name: 'Linux', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg', color: '#FCC624' },
+        { name: 'AWS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', color: '#FF9900' },
+        { name: 'GCP', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg', color: '#4285F4' },
         { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg', color: '#2496ED' },
-        { name: 'Redis', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg', color: '#DC382D' }
+        { name: 'CI/CD Actions', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg', color: '#2088FF' },
+        { name: 'Linux', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg', color: '#FCC624' },
+        { name: 'Bun', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg', color: '#FBF0DF' }
       ]
     },
     {
-      name: 'Dev Tools',
+      name: 'AI & Data',
       accent: 'amber',
       items: [
-        { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg', color: '#F05032' },
-        { name: 'GitHub', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg', invert: true, color: '#ffffff' },
-        { name: 'GitLab', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gitlab/gitlab-original.svg', color: '#FCA121' },
-        { name: 'Postman', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg', color: '#FF6C37' },
+        { name: 'LLM Integration', type: 'text' },
+        { name: 'Agentic Workflows', type: 'text' },
+        { name: 'A/B Evaluation', type: 'text' },
+        { name: 'SQLite/MySQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg', color: '#003B57' },
         { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg', color: '#47A248' },
-        { name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg', color: '#007ACC' },
-        { name: 'Neovim', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/neovim/neovim-original.svg', color: '#57A143' },
-        { name: 'Vercel', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg', invert: true, color: '#ffffff' },
-        { name: 'Cloudinary', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/cloudinary.svg', simple: true, color: '#3448C5' },
-        { name: 'Chart.js', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/chartdotjs.svg', simple: true, color: '#FF6384' },
-        { name: 'Bash', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg', color: '#4EAA25' }
+        { name: 'Web Scraping', type: 'text' }
       ]
     },
     {
-      name: 'CS Fundamentals',
-      accent: 'amber',
-      isTextOnly: true,
-      items: [
-        { name: 'Data Structures' }, { name: 'Algorithms' }, { name: 'Operating Systems' },
-        { name: 'Computer Networks' }, { name: 'DBMS' }, { name: 'OOP' }, { name: 'Distributed Systems' }
-      ]
-    },
-    {
-      name: 'Cryptography',
+      name: 'CS Fundamentals & Cryptography',
       accent: 'violet',
+      isTextOnly: true,
       isResearch: true,
       items: [
-        { name: 'Zero Knowledge Proofs' }, { name: 'Post-Quantum Cryptography' },
-        { name: 'Lattice Cryptography' }, { name: 'Blockchain Security' }
+        { name: 'Data Structures & Algorithms' }, { name: 'Operating Systems' }, { name: 'DBMS' },
+        { name: 'Applied Cryptography' }, { name: 'Zero-Knowledge Proofs' }, { name: 'Lattice Cryptography' }
       ]
     }
   ];

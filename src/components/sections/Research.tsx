@@ -3,16 +3,16 @@ import { motion } from 'framer-motion';
 export const Research = () => {
   const papers = [
     {
-      journal: 'CLUSTER_COMPUTING_JOURNAL',
-      title: 'Quantum-Safe Blockchain Assisted Data Encryption Protocol for IoT Networks',
-      desc: 'Research on integrating post-quantum cryptographic primitives within distributed ledger architectures.',
-      github: '#'
+      journal: 'CLUSTER_COMPUTING_JOURNAL (SUBMITTED)',
+      title: 'Quantum-Safe ZKP Architecture for Secure Verification',
+      desc: 'Co-authored research on a lattice-based Zero-Knowledge Proof protocol for post-quantum verification.',
+      github: 'https://github.com/Shubhamsah27/Quantum-safe-ZKP-batch-verification'
     },
     {
       journal: 'IEEE_SCEECS_2024',
-      title: 'Lattice-Based Zero-Knowledge Proof Architecture for Secure Verification',
-      desc: 'Novel approach to zero-knowledge proofs utilizing lattice structures for enhanced security guarantees.',
-      github: 'https://github.com/Shubhamsah27/Quantum-safe-ZKP-batch-verification'
+      title: 'Arduino-Based Robotic Car',
+      desc: 'Embedded control system with ultrasonic obstacle avoidance and real-time navigation algorithms.',
+      github: '#'
     }
   ];
 

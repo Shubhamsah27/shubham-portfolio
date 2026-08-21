@@ -27,15 +27,34 @@ export const Systems = () => {
       type: 'featured',
       badge: 'SYSTEM',
       name: 'Remote Browser Control System',
-      desc: 'A distributed architecture enabling low-latency remote control of headless Chromium instances over WebSockets.',
-      metrics: ['<50ms Latency', '30 FPS', 'WebSocket Transport', 'CDP Controlled'],
-      stack: ['Node.js', 'Redis', 'WebSockets', 'C++'],
+      desc: 'Real-time remote browser execution pipeline using Node.js, WebSockets, and Puppeteer streaming containerized Chromium instances to an HTML5 canvas.',
+      metrics: ['sub-100ms Latency', 'HTML5 Canvas Stream', '30% Overhead Reduction', 'Puppeteer & AWS'],
+      stack: ['React', 'Node.js', 'Docker', 'WebSockets', 'Puppeteer', 'AWS'],
       github: 'https://github.com/Shubhamsah27/remote-browser-control',
-      live: 'http://65.2.153.220/',
+      live: 'https://remote-browser-frontend.onrender.com/',
       image: '/projects/remote-browser.png'
     },
     {
       id: 2,
+      type: 'standard',
+      badge: 'AI / BACKEND',
+      name: 'Recoup — AI Payment Recovery Agent',
+      desc: 'Autonomous payment-recovery agent with SHA-256 action keys, atomic pre-call claims, reference-ID reconciliation, counterfactually-valid A/B evaluation, and safety guards.',
+      metrics: ['SHA-256 Action Keys', '+75.8% Net Value (+32.4L)', '65% Action Reduction', '98 Automated Tests'],
+      stack: ['TypeScript', 'Bun', 'React', 'Razorpay API'],
+      github: 'https://github.com/Shubhamsah27/Razorpay',
+      live: 'https://shubhamsah27.github.io/Razorpay/',
+      image: '/projects/remote-browser.png',
+      terminalLogs: [
+        { className: 'text-text-muted/50 text-xs mb-2', text: '> initializing recoup autonomous agent...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> verifying sha-256 action key claim [OK]' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> running counterfactual A/B evaluation...' },
+        { className: 'text-amber/70 text-xs mb-2', text: '> safety guards active (quiet hours/ caps) [OK]' },
+        { className: 'text-[#faf5ff] text-xs', text: '> payment recovery agent operational', cursor: true }
+      ]
+    },
+    {
+      id: 3,
       type: 'standard',
       badge: 'SYSTEM',
       name: 'PulseAPI Deployment Pipeline',
@@ -54,7 +73,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 3,
+      id: 4,
       type: 'standard',
       badge: 'WEB',
       name: 'Carbon Ingestion & Review Ledger',
@@ -67,7 +86,7 @@ export const Systems = () => {
       image: '/projects/carbon-ledger.png'
     },
     {
-      id: 4,
+      id: 5,
       type: 'standard',
       badge: 'BACKEND',
       name: 'Personal Finance Manager API',
@@ -86,7 +105,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 5,
+      id: 6,
       type: 'standard',
       badge: 'WEB',
       name: 'HFT Landing Page',
@@ -103,7 +122,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 6,
+      id: 7,
       type: 'standard',
       badge: 'WEB',
       name: 'Interior Design Landing Page',
@@ -120,7 +139,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 7,
+      id: 8,
       type: 'standard',
       badge: 'WEB',
       name: 'Law Firm Landing Page',
@@ -137,7 +156,7 @@ export const Systems = () => {
       ]
     },
     {
-      id: 8,
+      id: 9,
       type: 'standard',
       badge: 'RESEARCH',
       name: 'Quantum-Safe Encryption Platform',
@@ -148,7 +167,7 @@ export const Systems = () => {
       live: '#'
     },
     {
-      id: 9,
+      id: 10,
       type: 'standard',
       badge: 'SYSTEM',
       name: 'MineOps Dashboard',

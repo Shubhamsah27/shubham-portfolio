@@ -4,23 +4,23 @@ export const Experience = () => {
   const experiences = [
     {
       id: 1,
-      org: 'RevMozi',
-      role: 'Software Development Engineer Intern',
+      org: 'Blesso',
+      role: 'Software Development Engineer (SDE) Intern',
       date: 'Jul 2026 - Present',
       bullets: [
-        'Developed scalable backend microservices and optimized REST APIs',
-        'Collaborated with the CTO on system architecture and test suites'
+        'Architected an AEO/GEO visibility engine tracking brand citation rank across ChatGPT, Perplexity, Gemini, Claude, keeping 50-prompt scan under $9',
+        'Developed an automated Google Calendar sync service consuming change webhooks with email/domain-fallback matching & upsert logic',
+        'Engineered a programmatic SEO engine using LLM research and custom JSON schemas to mass-produce 1,000+ blogs'
       ]
     },
     {
       id: 2,
       org: 'AlgoUniversity',
-      role: 'MTS Intern (Backend & Systems Engineering)',
+      role: 'Software Engineer (SWE) Intern',
       date: 'May 2026 - Jul 2026',
       bullets: [
-        'Developed backend microservices for 500+ daily active users',
-        'Automated CI/CD pipelines using Python and Bash scripting',
-        'Implemented telemetry and logging to resolve production bottlenecks'
+        'Curated a target list of 200+ high-potential local businesses via automated web scraping and market research',
+        'Developed 5+ responsive, reusable React landing page templates, cutting onboarding-to-deployment time by 45%'
       ]
     },
     {
@@ -29,18 +29,17 @@ export const Experience = () => {
       role: 'Undergraduate Researcher (Quantum-Safe ZKP)',
       date: 'Aug 2025 - May 2026',
       bullets: [
-        'Designed a lattice-based Zero-Knowledge Proof protocol prototype',
-        'Evaluated post-quantum secure verification schemes in Python'
+        'Designed a lattice-based Zero-Knowledge Proof (ZKP) protocol prototype in Python to evaluate post-quantum schemes',
+        'Orchestrated a hybrid blockchain storage architecture pairing off-chain data vectors with on-chain Merkle roots (25% faster data retrieval)'
       ]
     },
     {
       id: 4,
-      org: 'MANIT',
-      role: 'Research Intern',
-      date: 'Nov 2023 - Apr 2024',
+      org: 'IIIT Bhopal',
+      role: 'B.Tech in Computer Science & Engineering (CGPA: 7.59)',
+      date: 'Aug 2023 - May 2027',
       bullets: [
-        'C++ testing frameworks',
-        'Telemetry optimization'
+        'Core coursework: Data Structures & Algorithms, Operating Systems, DBMS, Applied Cryptography'
       ]
     }
   ];

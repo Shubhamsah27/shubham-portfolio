@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 
 export const Achievements = () => {
   const stats = [
-    { label: 'Problems Solved', value: '770+', desc: 'Across platforms including Codeforces, LeetCode, and CodeChef' },
-    { label: 'Internships', value: '3', desc: 'Hands-on roles in backend engineering and systems infrastructure' },
-    { label: 'Publications', value: '2', desc: 'Peer-reviewed research on post-quantum cryptography' },
-    { label: 'System Uptime', value: '100%', desc: 'Proven reliability in production environments' }
+    { label: 'Problems Solved', value: '770+', desc: 'Across LeetCode, Codeforces (Peak: 1863), and CodeChef' },
+    { label: 'IIIT Bhopal Rank', value: 'Top 15', desc: 'Ranked top 15 of 500+ students in competitive programming' },
+    { label: 'CodeChef Rating', value: '5-Star', desc: 'Achieved 5-Star rating with peak score 2000+' },
+    { label: 'Open Source', value: 'GSSoC', desc: 'Contributed updates to distributed repos during GirlScript Summer of Code' }
   ];
 
   return (

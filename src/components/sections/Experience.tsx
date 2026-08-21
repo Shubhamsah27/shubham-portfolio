@@ -32,15 +32,6 @@ export const Experience = () => {
         'Designed a lattice-based Zero-Knowledge Proof (ZKP) protocol prototype in Python to evaluate post-quantum schemes',
         'Orchestrated a hybrid blockchain storage architecture pairing off-chain data vectors with on-chain Merkle roots (25% faster data retrieval)'
       ]
-    },
-    {
-      id: 4,
-      org: 'IIIT Bhopal',
-      role: 'B.Tech in Computer Science & Engineering (CGPA: 7.59)',
-      date: 'Aug 2023 - May 2027',
-      bullets: [
-        'Core coursework: Data Structures & Algorithms, Operating Systems, DBMS, Applied Cryptography'
-      ]
     }
   ];
 
